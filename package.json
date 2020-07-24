@@ -30,5 +30,18 @@
     "javascript-state-machine": "^3.1.0",
     "sqlite3": "^5.0.0",
     "typeorm": "^0.2.25"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "rootDir": "test",
+    "testRegex": ".test.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   }
 }
