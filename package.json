@@ -2,14 +2,18 @@
   "name": "typeorm-state-machine",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint \"{src,samples,test}/**/*.ts\"",
     "lint:fix": "eslint \"{src,samples,test}/**/*.ts\" --fix",
     "test": "jest"
   },
-  "keywords": ["typeorm", "fsm", "state-machine"],
+  "keywords": [
+    "typeorm",
+    "fsm",
+    "state-machine"
+  ],
   "author": "Eugene Sinitsyn",
   "license": "ISC",
   "repository": {

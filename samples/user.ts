@@ -1,4 +1,4 @@
-import { StateMachine } from './state-machine.decorator';
+import { StateMachine } from '../src/state-machine.decorator';
 import { Entity, getRepository, Column, createConnection, ConnectionOptions, PrimaryGeneratedColumn } from 'typeorm';
 
 @StateMachine({
