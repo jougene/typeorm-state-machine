@@ -2,7 +2,9 @@
 .travis.yml
 .editorconfig
 .prettierrc
+.eslintrc.js
 .idea
-tsconfig.json
+db.sqlite
+tsconfig*.json
 /test/
 /samples/
