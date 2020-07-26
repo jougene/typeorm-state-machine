@@ -1,5 +1,5 @@
-import assert = require("assert");
+import assert = require('assert');
 
 it('always true', async () => {
     assert(true);
-})
+});
