@@ -8,7 +8,7 @@ export type Options = {
         autoImplementAll?: boolean;
         autoImplementOnly?: string[];
         autoImplementExcept?: string[];
-        errorFactory?: () => Error;
+        errorFactory?: (transition: string, from: string, to: string) => Error;
     };
 };
 
@@ -22,7 +22,7 @@ const defaultOptions: Partial<Options> = {
 export function StateMachine(data: Options) {
     const options = data;
     options.stateField = data.stateField || defaultOptions.stateField;
-    options.options = data.options || defaultOptions.options;
+    options.options = { ...data.options, ...defaultOptions.options };
 
     return function<T extends { new (...args: any[]): {} }>(ctor: T) {
         const load = function() {

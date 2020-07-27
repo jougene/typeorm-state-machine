@@ -4,6 +4,10 @@ import { Options } from './state-machine.decorator';
 export class StateMachineLoader {
     static load(entity: any, options: Options) {
         const { transitions, stateField } = options;
+        const defaultErrorFactory = (transition: string, from: string, to: string) => {
+            return new Error(`Invalid ${entity.constructor.name} transition <${transition}> from [${from}] to [${to}]`);
+        };
+        const errorFactory = options.options.errorFactory || defaultErrorFactory;
 
         const transitionMethodWrapper = (stateMachine: StateMachine, transition: string) => {
             return () => {
@@ -11,7 +15,7 @@ export class StateMachineLoader {
                     return stateMachine[transition]();
                 } catch (e) {
                     const { to } = transitions.find(e => e.name === transition);
-                    throw new Error(`Invalid ${entity.constructor.name} transition <${transition}> from [${e.from}] to [${to}]`);
+                    throw errorFactory(transition, e.from, to);
                 }
             };
         };
