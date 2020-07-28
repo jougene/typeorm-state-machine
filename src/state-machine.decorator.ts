@@ -1,6 +1,8 @@
 import { getMetadataArgsStorage } from 'typeorm';
 import { StateMachineLoader } from './state-machine.loader';
 
+export type ErrorFactory = (entity: string, transition: string, from: string, to: string) => Error;
+
 export type Options = {
     transitions: any[];
     stateField?: string;
@@ -8,7 +10,7 @@ export type Options = {
         autoImplementAll?: boolean;
         autoImplementOnly?: string[];
         autoImplementExcept?: string[];
-        errorFactory?: (transition: string, from: string, to: string) => Error;
+        errorFactory?: ErrorFactory;
     };
 };
 
@@ -41,4 +43,3 @@ export function StateMachine(data: Options) {
         });
     };
 }
-
