@@ -7,11 +7,6 @@ import { Entity, getRepository, Column, createConnection, ConnectionOptions, Pri
         { name: 'stop', from: 'walking', to: 'stopped' },
         { name: 'meow', from: ['stopped', 'walking'], to: 'meowed' },
     ],
-    options: {
-        //errorFactory: (t, from, to) => {
-            //return new Error('Haha');
-        //},
-    },
 })
 @Entity()
 export class Example {
