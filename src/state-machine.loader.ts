@@ -39,6 +39,7 @@ export class StateMachineLoader {
                 .forEach(transition => {
                     Object.defineProperty(entity, transition, {
                         value: transitionMethodWrapper(stateMachineClone, transition),
+                        writable: true, // hack for Typeorm reload method
                     });
                 });
         }
