@@ -41,5 +41,10 @@ export function StateMachine(data: Options) {
             propertyName: afterLoadMethodName,
             type: 'after-load',
         });
+        getMetadataArgsStorage().entityListeners.push({
+            target: ctor,
+            propertyName: afterLoadMethodName,
+            type: 'after-insert',
+        });
     };
 }
