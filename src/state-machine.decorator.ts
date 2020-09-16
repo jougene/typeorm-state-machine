@@ -7,6 +7,7 @@ export type Options = {
     transitions: any[];
     stateField?: string;
     options?: {
+        saveAfterTransition?: boolean;
         autoImplementAll?: boolean;
         autoImplementOnly?: string[];
         autoImplementExcept?: string[];
@@ -18,13 +19,15 @@ const defaultOptions: Partial<Options> = {
     stateField: 'status',
     options: {
         autoImplementAll: true,
+        saveAfterTransition: false,
     },
 };
 
 export function StateMachine(data: Options) {
+    console.log(data);
     const options = data;
     options.stateField = data.stateField || defaultOptions.stateField;
-    options.options = { ...data.options, ...defaultOptions.options };
+    options.options = { ...defaultOptions.options, ...data.options };
 
     return function<T extends { new (...args: any[]): {} }>(ctor: T) {
         const load = function() {

@@ -1,9 +1,10 @@
 {
   "name": "typeorm-state-machine",
-  "version": "0.2.4",
+  "version": "0.3.4",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "sample": "ts-node samples/user.ts",
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint \"{src,samples,test}/**/*.ts\"",
     "lint:fix": "eslint \"{src,samples,test}/**/*.ts\" --fix",

@@ -10,9 +10,12 @@ export class StateMachineLoader {
         const errorFactory = options.options.errorFactory || defaultErrorFactory;
 
         const transitionMethodWrapper = (stateMachine: StateMachine, transition: string) => {
-            return () => {
+            return async () => {
                 try {
-                    return stateMachine[transition]();
+                    stateMachine[transition]();
+                    if (options.options.saveAfterTransition && entity.save) {
+                        return entity.save();
+                    }
                 } catch (e) {
                     const { to } = transitions.find(e => e.name === transition);
                     throw errorFactory(entity.constructor.name, transition, e.from, to);
@@ -24,7 +27,7 @@ export class StateMachineLoader {
             init: entity.status,
             transitions,
             methods: {
-                onTransition: (s: any): void => {
+                onTransition(s: any): void {
                     entity[stateField] = s.to;
                 },
             },
