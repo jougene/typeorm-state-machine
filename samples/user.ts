@@ -44,8 +44,9 @@ const options: ConnectionOptions = {
 
     await user.walk();
     await user.stop();
-    await user.meow();
-    await user.meow();
+    const saved = await user.meow();
+    //const savedawait user.meow();
 
     console.log(user);
+    console.log(saved);
 })();

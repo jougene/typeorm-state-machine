@@ -24,7 +24,6 @@ const defaultOptions: Partial<Options> = {
 };
 
 export function StateMachine(data: Options) {
-    console.log(data);
     const options = data;
     options.stateField = data.stateField || defaultOptions.stateField;
     options.options = { ...defaultOptions.options, ...data.options };
