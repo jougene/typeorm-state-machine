@@ -1,6 +1,7 @@
 # Typeorm State Machine
 
 Declarative state machine definition for typeorm entity classes
+Based on javascript-state-machine implementation
 
 ### Why?
 
@@ -72,6 +73,10 @@ payment.refund();
 
 payment.register() // will fail, becauze it is incorrect state transition
 ```
+
+### Options
+- saveAfterTransition - all transitions become promisified and you can use it like `await payment.hold()`. Entity is also will be saved in database (Default false)
+- autoImplementAll - all methods provided in state machine definition are auto implemented while loading. (Default true)
 
 ### Samples
 
