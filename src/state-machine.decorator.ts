@@ -23,30 +23,43 @@ const defaultOptions: Partial<Options> = {
     },
 };
 
-export function StateMachine(data: Options) {
-    const options = data;
-    options.stateField = data.stateField || defaultOptions.stateField;
-    options.options = { ...defaultOptions.options, ...data.options };
+export function StateMachine(data: Options | Options[]) {
+    const allOptions = [];
+    if (!Array.isArray(data)) {
+        const options = data;
+        options.stateField = data.stateField || defaultOptions.stateField;
+        options.options = { ...defaultOptions.options, ...data.options };
+        allOptions.push(options);
+    } else {
+        for (const singleFsm of data) {
+            const options = singleFsm;
+            options.stateField = singleFsm.stateField || defaultOptions.stateField;
+            options.options = { ...defaultOptions.options, ...singleFsm.options };
+            allOptions.push(options);
+        }
+    }
 
     return function<T extends { new (...args: any[]): {} }>(ctor: T) {
-        const load = function() {
-            return StateMachineLoader.load(this, options);
-        };
+        allOptions.forEach(options => {
+            const load = function() {
+                return StateMachineLoader.load(this, options);
+            };
 
-        const afterLoadMethodName = '__initStateMachine';
-        Object.defineProperty(ctor.prototype, afterLoadMethodName, {
-            value: load,
-        });
+            const afterLoadMethodName = '__initStateMachine_' + options.stateField;
+            Object.defineProperty(ctor.prototype, afterLoadMethodName, {
+                value: load,
+            });
 
-        getMetadataArgsStorage().entityListeners.push({
-            target: ctor,
-            propertyName: afterLoadMethodName,
-            type: 'after-load',
-        });
-        getMetadataArgsStorage().entityListeners.push({
-            target: ctor,
-            propertyName: afterLoadMethodName,
-            type: 'after-insert',
+            getMetadataArgsStorage().entityListeners.push({
+                target: ctor,
+                propertyName: afterLoadMethodName,
+                type: 'after-load',
+            });
+            getMetadataArgsStorage().entityListeners.push({
+                target: ctor,
+                propertyName: afterLoadMethodName,
+                type: 'after-insert',
+            });
         });
     };
 }
