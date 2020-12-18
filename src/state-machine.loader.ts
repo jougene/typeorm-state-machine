@@ -1,8 +1,17 @@
 import * as StateMachine from 'javascript-state-machine';
-import { Options } from './state-machine.decorator';
+import { Options, HookParam } from './state-machine.decorator';
+import { EventEmitter } from 'events';
 
 export class StateMachineLoader {
     static load(entity: any, options: Options) {
+        const emitter = new EventEmitter();
+        if (options.options.afterTransition.length > 0) {
+            options.options.afterTransition.forEach(async hook => {
+                emitter.on('transition', async (s: HookParam) => {
+                    await hook(s);
+                });
+            });
+        }
         const { transitions, stateField } = options;
         const defaultErrorFactory = (entity: string, transition: string, from: string, to: string) => {
             return new Error(`Invalid ${entity} transition <${transition}> from [${from}] to [${to}]`);
@@ -29,6 +38,9 @@ export class StateMachineLoader {
             methods: {
                 onTransition(s: any): void {
                     entity[stateField] = s.to;
+                    if (s.from !== 'none') {
+                        emitter.emit('transition', { transition: s, entity: entity.constructor.name });
+                    }
                 },
             },
         });

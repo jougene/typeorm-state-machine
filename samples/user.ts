@@ -1,4 +1,4 @@
-import { StateMachine } from '../src/state-machine.decorator';
+import { StateMachine, HookParam } from '../src/state-machine.decorator';
 import { Entity, getRepository, Column, createConnection, ConnectionOptions, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 
 @StateMachine([
@@ -8,7 +8,7 @@ import { Entity, getRepository, Column, createConnection, ConnectionOptions, Pri
             { name: 'stop', from: 'walking', to: 'stopped' },
             { name: 'meow', from: ['stopped', 'walking'], to: 'meowed' },
         ],
-        options: { saveAfterTransition: true },
+        options: { saveAfterTransition: true, afterTransition: [async (param: HookParam) => console.log(param)] },
     },
     {
         stateField: 'status1',
@@ -49,7 +49,7 @@ const options: ConnectionOptions = {
     type: 'sqlite',
     database: ':memory:',
     entities: [Example],
-    logging: true,
+    //logging: true,
     synchronize: true,
 };
 
@@ -61,11 +61,11 @@ const options: ConnectionOptions = {
     const user = await repo.findOne();
 
     await user.walk();
-    await user.stop();
-    const saved = await user.meow();
+    //await user.stop();
+    //const saved = await user.meow();
     //const savedawait user.meow();
 
     console.log(user);
-    await user.walk1();
-    console.log(user);
+    //await user.walk1();
+    //console.log(user);
 })();

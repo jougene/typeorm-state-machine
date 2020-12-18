@@ -3,6 +3,11 @@ import { StateMachineLoader } from './state-machine.loader';
 
 export type ErrorFactory = (entity: string, transition: string, from: string, to: string) => Error;
 
+export type HookParam = {
+    transition: any;
+    entity: string;
+};
+
 export type Options = {
     transitions: any[];
     stateField?: string;
@@ -12,6 +17,7 @@ export type Options = {
         autoImplementOnly?: string[];
         autoImplementExcept?: string[];
         errorFactory?: ErrorFactory;
+        afterTransition?: Function[];
     };
 };
 
@@ -20,6 +26,7 @@ const defaultOptions: Partial<Options> = {
     options: {
         autoImplementAll: true,
         saveAfterTransition: false,
+        afterTransition: [],
     },
 };
 
