@@ -20,13 +20,16 @@ export class StateMachineLoader {
 
         const transitionMethodWrapper = (stateMachine: StateMachine, transition: string) => {
             return async () => {
+                const { to } = transitions.find(e => e.name === transition);
                 try {
+                    const from = entity[stateField];
                     stateMachine[transition]();
                     if (options.options.saveAfterTransition && entity.save) {
-                        return entity.save();
+                        entity = await entity.save();
                     }
+                    emitter.emit('transition', { from, to, transition, entity });
+                    return entity;
                 } catch (e) {
-                    const { to } = transitions.find(e => e.name === transition);
                     throw errorFactory(entity.constructor.name, transition, e.from, to);
                 }
             };
@@ -38,9 +41,6 @@ export class StateMachineLoader {
             methods: {
                 onTransition(s: any): void {
                     entity[stateField] = s.to;
-                    if (s.from !== 'none') {
-                        emitter.emit('transition', { transition: s, entity: entity.constructor.name });
-                    }
                 },
             },
         });

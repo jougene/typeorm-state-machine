@@ -4,7 +4,9 @@ import { StateMachineLoader } from './state-machine.loader';
 export type ErrorFactory = (entity: string, transition: string, from: string, to: string) => Error;
 
 export type HookParam = {
-    transition: any;
+    transition: string;
+    from: string;
+    to: string;
     entity: string;
 };
 
