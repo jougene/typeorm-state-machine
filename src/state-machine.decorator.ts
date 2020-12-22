@@ -8,6 +8,7 @@ export type HookParam = {
     from: string;
     to: string;
     entity: string;
+    field: string;
 };
 
 export type Options = {
