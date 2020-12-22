@@ -36,7 +36,7 @@ export class StateMachineLoader {
         };
 
         const stateMachine = new StateMachine({
-            init: entity.status,
+            init: entity[stateField],
             transitions,
             methods: {
                 onTransition(s: any): void {

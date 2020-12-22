@@ -13,9 +13,9 @@ import { Entity, getRepository, Column, createConnection, ConnectionOptions, Pri
     {
         stateField: 'status1',
         transitions: [
-            { name: 'walk1', from: 'init', to: 'walking' },
-            { name: 'stop1', from: 'walking', to: 'stopped' },
-            { name: 'meow1', from: ['stopped', 'walking'], to: 'meowed' },
+            { name: 'walk1', from: 'init1', to: 'walking1' },
+            { name: 'stop1', from: 'walking1', to: 'stopped1' },
+            { name: 'meow1', from: ['stopped1', 'walking1'], to: 'meowed1' },
         ],
         options: { saveAfterTransition: true },
     },
@@ -56,7 +56,7 @@ const options: ConnectionOptions = {
 (async () => {
     await createConnection(options);
     const repo = getRepository(Example);
-    await repo.insert({ status: 'init', status1: 'init', name: 'Ivan' });
+    await repo.insert({ status: 'init', status1: 'init1', name: 'Ivan' });
 
     const user = await repo.findOne();
 
@@ -66,6 +66,7 @@ const options: ConnectionOptions = {
     //const savedawait user.meow();
 
     console.log(user);
+    await user.stop1();
     //await user.walk1();
     //console.log(user);
 })();
