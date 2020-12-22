@@ -27,7 +27,7 @@ export class StateMachineLoader {
                     if (options.options.saveAfterTransition && entity.save) {
                         entity = await entity.save();
                     }
-                    emitter.emit('transition', { from, to, transition, entity });
+                    emitter.emit('transition', { from, to, transition, entity, field: stateField });
                     return entity;
                 } catch (e) {
                     throw errorFactory(entity.constructor.name, transition, e.from, to);
